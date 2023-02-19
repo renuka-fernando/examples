@@ -1,0 +1,20 @@
+version: "3.8"
+services:
+  front-envoy:
+    image: envoyproxy/envoy:v1.24.1
+    volumes:
+      - ./envoy.yaml:/etc/envoy/envoy.yaml
+      - ./certs:/certs
+    command: /usr/local/bin/envoy -c /etc/envoy/envoy.yaml --service-cluster front-proxy
+    ports:
+      - "8000:8000"
+
+  # ext_authz-grpc-service:
+  #   image: alpine:3.17.1
+  #   volumes:
+  #     - ./users.json:/etc/users.json
+  #   command: /app/server -users /etc/users.json
+
+  upstream-service:
+    image: cakebakery/request-info:v1
+    command: -pretty -logH -logB
