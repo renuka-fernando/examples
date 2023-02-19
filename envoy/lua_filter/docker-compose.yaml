@@ -1,0 +1,16 @@
+version: "3.8"
+services:
+  proxy:
+    image: envoyproxy/envoy:v1.24.1
+    command: ["/usr/local/bin/envoy", "-c", "/etc/envoy.yaml", "--service-cluster", "proxy"]
+    volumes:
+      - ./envoy.yaml:/etc/envoy.yaml
+      - ./lib/mylibrary.lua:/lib/mylibrary.lua
+    ports:
+    - "9090:9090"
+
+  web_service:
+    image: cakebakery/request-info:v1
+    command: ["-logH", "-logB"]
+    ports:
+    - "8080:8080"
