@@ -1,0 +1,12 @@
+version: '3'
+services:
+  nginx:
+    image: openresty/openresty:1.21.4.1-7-jammy
+    ports:
+      - 8080:80
+    volumes:
+      - ./nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
+      - ./lua:/usr/local/openresty/nginx/lua
+  upstream-service:
+    image: cakebakery/request-info:v1
+    command: -pretty -logH -logB
