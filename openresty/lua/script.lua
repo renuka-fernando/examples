@@ -2,6 +2,10 @@
 
 -- Extract the JWT token from the "Authorization" header
 local authorization_header = ngx.var.http_authorization
+if not authorization_header then
+    return;
+end
+
 local jwt_token = string.match(authorization_header, "^Bearer%s+(.+)$")
 
 -- Set the "x-jwt-assertion" header using the extracted token

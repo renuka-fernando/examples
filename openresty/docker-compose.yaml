@@ -8,5 +8,5 @@ services:
       - ./nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
       - ./lua:/usr/local/openresty/nginx/lua
   upstream-service:
-    image: cakebakery/request-info:v1
+    image: cakebakery/request-info:v2
     command: -pretty -logH -logB
