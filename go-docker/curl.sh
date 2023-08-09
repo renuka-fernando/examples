@@ -1,0 +1,2 @@
+curl localhost:8000 \
+    -d "[2023-06-14T06:07:11.817Z]' 'dev.e1-us-east-azure.preview-dv.choreoapis.dev' 'golang-service-new-2510529736.dp-development-default-project-224-321563503.svc.cluster.local' 'PUT' '/834jwfwe-u04r-jg49-rg9s-g9e4jgso9u3r/g46r/golang-service-new/service-2-c5d/2.0.0/hello-world' '/hello-world' 'HTTP/1.1' '200' 'via_upstream' '-' 'Mozilla/5.0 (Macintosh  Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36' '7f4cbd2f66b52e957ae7d9c6dba97e2f' '-' '172.19.216.59:8081' '0' '30' '3' '-' '2' '0' '0' '2' '"

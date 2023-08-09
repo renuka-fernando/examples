@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-app
+  labels:
+    app: go-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: go-app
+  template:
+    metadata:
+      labels:
+        app: go-app
+    spec:
+      containers:
+      - name: go-app
+        image: renukafernando/go-app:v1-arm64
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "400m"
+          requests:
+            memory: "64Mi"
+            cpu: "200m"
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: go-app
+# spec:
+#   type: LoadBalancer
+#   selector:
+#     app: go-app
+#   ports:
+#     - protocol: TCP
+#       port: 8000
+#       targetPort: 8000
