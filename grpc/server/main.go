@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"time"
 
 	pb "github.com/renuka-fernando/examples/grpc/server/api/helloworld"
 
@@ -23,6 +24,45 @@ type server struct {
 func (s *server) SayHello(ctx context.Context, req *pb.HelloRequest) (*pb.HelloResponse, error) {
 	log.Printf("Received: %v", req.GetName())
 	return &pb.HelloResponse{Message: "Hello " + req.GetName()}, nil
+}
+
+func (s *server) LotsOfReplies(req *pb.HelloRequest, stream pb.Greeter_LotsOfRepliesServer) error {
+	for i := 0; i < 10; i++ {
+		if err := stream.Send(&pb.HelloResponse{Message: fmt.Sprintf("%d. Hello %s!", i, req.GetName())}); err != nil {
+			return err
+		}
+		time.Sleep(1 * time.Second)
+	}
+	return nil
+}
+
+func (s *server) LotsOfGreetings(stream pb.Greeter_LotsOfGreetingsServer) error {
+	for {
+		req, err := stream.Recv()
+		if err != nil {
+			if err.Error() == "EOF" {
+				return nil
+			}
+			return err
+		}
+		log.Printf("Received: %v", req.GetName())
+	}
+}
+
+func (s *server) BidiHello(stream pb.Greeter_BidiHelloServer) error {
+	for {
+		req, err := stream.Recv()
+		if err != nil {
+			if err.Error() == "EOF" {
+				return nil
+			}
+			return err
+		}
+		log.Printf("Received: %v", req.GetName())
+		if err := stream.Send(&pb.HelloResponse{Message: "Hello " + req.GetName()}); err != nil {
+			return err
+		}
+	}
 }
 
 func main() {

@@ -31,7 +31,7 @@ func main() {
 	c := pb.NewGreeterClient(conn)
 
 	// Contact the server and print out its response.
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
 	defer cancel()
 
 	r, err := c.SayHello(ctx, &pb.HelloRequest{Name: *name})
@@ -45,4 +45,50 @@ func main() {
 		log.Fatalf("could not greet: %v", err)
 	}
 	log.Printf("Greeting: %s", r.GetMessage())
+
+	srvStream, err := c.LotsOfReplies(ctx, &pb.HelloRequest{Name: *name})
+	if err != nil {
+		log.Fatalf("could not greet: %v", err)
+	}
+	for {
+		r, err := srvStream.Recv()
+		if err != nil {
+			if err.Error() == "EOF" {
+				break
+			}
+			log.Fatalf("could not greet: %v", err)
+		}
+		log.Printf("Greeting: %s", r.GetMessage())
+	}
+
+	cStream, err := c.LotsOfGreetings(ctx)
+	if err != nil {
+		log.Fatalf("could not greet: %v", err)
+	}
+	for _, name := range []string{"Alice", "Bob", "Charlie"} {
+		if err := cStream.Send(&pb.HelloRequest{Name: name}); err != nil {
+			log.Fatalf("could not greet: %v", err)
+		}
+		time.Sleep(1 * time.Second)
+	}
+
+	bidiStream, err := c.BidiHello(ctx)
+	if err != nil {
+		log.Fatalf("could not greet: %v", err)
+	}
+	for _, name := range []string{"Alice", "Bob", "Charlie"} {
+		if err := bidiStream.Send(&pb.HelloRequest{Name: name}); err != nil {
+			log.Fatalf("could not greet: %v", err)
+		}
+		r, err := bidiStream.Recv()
+		if err != nil {
+			if err.Error() == "EOF" {
+				break
+			}
+			log.Fatalf("could not greet: %v", err)
+		}
+		log.Printf("Greeting: %s", r.GetMessage())
+		time.Sleep(1 * time.Second)
+	}
+
 }
