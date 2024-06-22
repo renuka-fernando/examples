@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option go_package = "github.com/renuka-fernando/examples/grpc/helloworld";
+
+package helloworld;
+
+service Greeter {
+  rpc SayHello (HelloRequest) returns (HelloResponse) {}
+}
+
+message HelloRequest {
+  string name = 1;
+}
+
+message HelloResponse {
+  string message = 1;
+}
