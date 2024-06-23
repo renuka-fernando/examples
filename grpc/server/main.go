@@ -22,7 +22,7 @@ type server struct {
 }
 
 func (s *server) SayHello(ctx context.Context, req *pb.HelloRequest) (*pb.HelloResponse, error) {
-	log.Printf("Received: %v", req.GetName())
+	log.Printf("[unary] Received: %v", req.GetName())
 	return &pb.HelloResponse{Message: "Hello " + req.GetName()}, nil
 }
 
@@ -45,7 +45,7 @@ func (s *server) LotsOfGreetings(stream pb.Greeter_LotsOfGreetingsServer) error 
 			}
 			return err
 		}
-		log.Printf("Received: %v", req.GetName())
+		log.Printf("[serverStream] Received: %v", req.GetName())
 	}
 }
 
@@ -58,7 +58,7 @@ func (s *server) BidiHello(stream pb.Greeter_BidiHelloServer) error {
 			}
 			return err
 		}
-		log.Printf("Received: %v", req.GetName())
+		log.Printf("[bidi] Received: %v", req.GetName())
 		if err := stream.Send(&pb.HelloResponse{Message: "Hello " + req.GetName()}); err != nil {
 			return err
 		}
