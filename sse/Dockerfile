@@ -1,5 +1,6 @@
 # Use the official Node.js image
-FROM node:16
+FROM node:16.13-alpine
+RUN apk update && apk upgrade
 
 # Set the working directory
 WORKDIR /app
