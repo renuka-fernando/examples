@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: app
+  name: app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+      - image: go-app:latest
+        name: go-app-1
+        args:
+          - "-delay-term=0"
+          - "-delay-http=5000"
+          - "-port=8080"
+          - "-upstream=http://localhost:8081"
+        # lifecycle:
+        #   preStop:
+        #     exec:
+        #       command: ["/bin/sleep", "30"]
+        imagePullPolicy: IfNotPresent
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 1
+          periodSeconds: 5
+          timeoutSeconds: 1
+          successThreshold: 1
+          failureThreshold: 3
+        resources:
+          limits:
+            cpu: 100m
+            memory: 128Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+      - image: go-app:latest
+        name: go-app-2
+        args:
+          - "-delay-term=0"
+          - "-delay-http=5000"
+          - "-port=8081"
+          - "-upstream=http://localhost:8082"
+        # lifecycle:
+        #   preStop:
+        #     exec:
+        #       command: ["/bin/sleep", "30"]
+        imagePullPolicy: IfNotPresent
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 8081
+          periodSeconds: 1
+          timeoutSeconds: 1
+          successThreshold: 1
+          failureThreshold: 3
+        resources:
+          limits:
+            cpu: 100m
+            memory: 128Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi

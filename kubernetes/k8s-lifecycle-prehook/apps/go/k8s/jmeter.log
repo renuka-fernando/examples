@@ -1,0 +1,26 @@
+2024-06-09 19:34:55,729 INFO o.a.j.u.JMeterUtils: Setting Locale to en_EN
+2024-06-09 19:34:55,743 INFO o.a.j.JMeter: Loading user properties from: /Users/renuka/softwares-common/bin/apache-jmeter-5.3/bin/user.properties
+2024-06-09 19:34:55,744 INFO o.a.j.JMeter: Loading system properties from: /Users/renuka/softwares-common/bin/apache-jmeter-5.3/bin/system.properties
+2024-06-09 19:34:55,745 INFO o.a.j.JMeter: Copyright (c) 1998-2020 The Apache Software Foundation
+2024-06-09 19:34:55,745 INFO o.a.j.JMeter: Version 5.3
+2024-06-09 19:34:55,745 INFO o.a.j.JMeter: java.version=11.0.16.1
+2024-06-09 19:34:55,745 INFO o.a.j.JMeter: java.vm.name=OpenJDK 64-Bit Server VM
+2024-06-09 19:34:55,745 INFO o.a.j.JMeter: os.name=Mac OS X
+2024-06-09 19:34:55,745 INFO o.a.j.JMeter: os.arch=aarch64
+2024-06-09 19:34:55,745 INFO o.a.j.JMeter: os.version=14.4.1
+2024-06-09 19:34:55,745 INFO o.a.j.JMeter: file.encoding=UTF-8
+2024-06-09 19:34:55,745 INFO o.a.j.JMeter: java.awt.headless=null
+2024-06-09 19:34:55,745 INFO o.a.j.JMeter: Max memory     =1073741824
+2024-06-09 19:34:55,745 INFO o.a.j.JMeter: Available Processors =10
+2024-06-09 19:34:55,750 INFO o.a.j.JMeter: Default Locale=English (EN)
+2024-06-09 19:34:55,750 INFO o.a.j.JMeter: JMeter  Locale=English (EN)
+2024-06-09 19:34:55,750 INFO o.a.j.JMeter: JMeterHome=/Users/renuka/softwares-common/bin/apache-jmeter-5.3
+2024-06-09 19:34:55,750 INFO o.a.j.JMeter: user.dir  =/Users/renuka/git/examples/kubernetes/k8s-lifecycle-prehook/apps/go/k8s
+2024-06-09 19:34:55,750 INFO o.a.j.JMeter: PWD       =/Users/renuka/git/examples/kubernetes/k8s-lifecycle-prehook/apps/go/k8s
+2024-06-09 19:34:55,751 INFO o.a.j.JMeter: IP: 127.0.0.1 Name: Renuka.local FullName: localhost
+2024-06-09 19:34:55,932 INFO o.a.j.JMeter: Setting LAF to: com.github.weisj.darklaf.DarkLaf:com.github.weisj.darklaf.theme.DarculaTheme
+2024-06-09 19:34:56,240 INFO o.a.j.JMeter: Loaded icon properties from org/apache/jmeter/images/icon.properties
+2024-06-09 19:34:57,166 WARN o.j.r.PluginManager: Found JAR conflict: /Users/renuka/softwares-common/bin/apache-jmeter-5.3/lib/ext/jmeter-plugins-manager-1.7.jar and /Users/renuka/softwares-common/bin/apache-jmeter-5.3/lib/ext/jmeter-plugins-manager-1.6.jar
+2024-06-09 19:34:57,184 INFO o.j.r.JARSourceHTTP: Found cached repo
+2024-06-09 19:34:57,276 INFO o.j.r.PluginManager: Plugins Status: [jpgc-casutg=2.10, jmeter-grpc-request=v1.2.1, jpgc-plugins-manager=1.6, jmeter-core=5.3, jmeter-ftp=5.3, jmeter-http=5.3, jmeter-jdbc=5.3, jmeter-jms=5.3, jmeter-junit=5.3, jmeter-java=5.3, jmeter-ldap=5.3, jmeter-mail=5.3, jmeter-mongodb=5.3, jmeter-native=5.3, jmeter-tcp=5.3, jmeter-components=5.3]
+2024-06-09 19:34:57,276 INFO o.j.r.PluginManagerMenuItem: Plugins Manager has upgrades: [jpgc-plugins-manager]

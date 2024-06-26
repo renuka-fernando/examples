@@ -1,5 +1,5 @@
 # Use the official Node.js image
-FROM node:16.13-alpine
+FROM node:16
 
 # Set the working directory
 WORKDIR /app
@@ -15,6 +15,8 @@ COPY . .
 
 # Expose the port the app runs on
 EXPOSE 3000
+
+USER 10014
 
 # Command to run the application
 CMD ["node", "server.js"]

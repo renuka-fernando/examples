@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: request-info
+  name: request-info
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: request-info
+  template:
+    metadata:
+      labels:
+        app: request-info
+    spec:
+      containers:
+      - image: renukafernando/request-info:latest
+        name: request-info
+        # lifecycle:
+        #   preStop:
+        #     exec:
+        #       command: ["/bin/sleep", "30"]
+        imagePullPolicy: IfNotPresent
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 1
+          periodSeconds: 5
+          timeoutSeconds: 1
+          successThreshold: 1
+          failureThreshold: 3
+        resources:
+          limits:
+            cpu: 100m
+            memory: 128Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi

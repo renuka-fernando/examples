@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  envoy:
+    image: envoyproxy/envoy:v1.26.4
+    volumes:
+      - ./envoy.yaml:/etc/envoy/envoy.yaml
+      - ./envoy-start.sh:/usr/local/bin/envoy-start.sh
+    # entrypoint: ["/usr/local/bin/envoy", "-c", "/etc/envoy/envoy.yaml"]
+    entrypoint: ["/usr/local/bin/envoy-start.sh"]
+    ports:
+      - "8000:8000"
+      - "9000:9000"
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: go-app
+    ports:
+      - "8080:8080"
