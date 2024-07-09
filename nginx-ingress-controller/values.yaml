@@ -1,0 +1,4 @@
+controller:
+  name: controller
+  config:
+    proxy-body-size: "50m"

@@ -17,6 +17,9 @@ spec:
       containers:
       - image: renukafernando/request-info:latest
         name: request-info
+        env:
+          - name: NAME
+            value: "Service - A"
         # lifecycle:
         #   preStop:
         #     exec:

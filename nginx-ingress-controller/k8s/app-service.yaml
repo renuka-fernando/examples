@@ -13,5 +13,3 @@ spec:
   selector:
     app: request-info
   type: LoadBalancer
-status:
-  loadBalancer: {}

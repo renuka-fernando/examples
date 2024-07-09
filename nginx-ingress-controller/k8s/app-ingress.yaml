@@ -4,6 +4,7 @@ metadata:
   name: app
   annotations:
     nginx.ingress.kubernetes.io/service-upstream: "false"
+    # nginx.ingress.kubernetes.io/proxy-body-size: 1m
 spec:
   ingressClassName: nginx
   rules:
@@ -15,5 +16,5 @@ spec:
                 name: request-info
                 port:
                   number: 8080
-            path: /
+            path: /foo
             pathType: Prefix
