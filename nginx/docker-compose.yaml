@@ -8,14 +8,6 @@ services:
     ports:
       - "8080:8080"
       - "8443:8443"
-    networks:
-      - choreo-connect-with-apim_default
   upstream-service:
-    image: cakebakery/request-info:v1
+    image: renukafernando/request-info:latest
     command: -pretty -logH -logB
-    networks:
-      - choreo-connect-with-apim_default
-
-networks:
-  choreo-connect-with-apim_default:
-    external: true
