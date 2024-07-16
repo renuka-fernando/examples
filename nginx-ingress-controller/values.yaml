@@ -2,3 +2,10 @@ controller:
   name: controller
   config:
     proxy-body-size: "50m"
+  extraVolumeMounts:
+    - name: nginx-conf
+      mountPath: /etc/nginx/sites-enabled
+  extraVolumes:
+    - name: nginx-conf
+      configMap:
+        name: nginx-ic

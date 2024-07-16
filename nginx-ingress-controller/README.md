@@ -1,3 +1,9 @@
+### Create Nginx.conf ConfigMap and Deployments
+
+```sh
+k apply -k .
+```
+
 ### Install Nginx Ingress Controller
 
 ```sh
@@ -10,8 +16,11 @@ helm upgrade --install ingress-nginx ingress-nginx \
 
 ### Nginx Configs
 
+#### Nginx ConfigMap
 https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/configmap.md#configuration-options
 
+
+#### Helm Chart Configs
 https://github.com/kubernetes/ingress-nginx/blob/main/charts/ingress-nginx/values.yaml
 
 ### Apply Configs

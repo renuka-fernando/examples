@@ -1,0 +1,10 @@
+configMapGenerator:
+  - name: nginx-ic
+    namespace: ingress-nginx
+    behavior: create
+    files:
+      - nginx.conf
+    options:
+      disableNameSuffixHash: true
+resources:
+  - k8s
