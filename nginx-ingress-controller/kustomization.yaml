@@ -1,10 +1,23 @@
+resources:
+  - k8s
+  - nginx-namespace.yaml
+
+helmCharts:
+  - name: ingress-nginx
+    repo: https://kubernetes.github.io/ingress-nginx
+    version: 4.10.1
+    releaseName: nginx-ic
+    namespace: ingress-nginx
+    valuesFile: values.yaml
+
 configMapGenerator:
   - name: nginx-ic
     namespace: ingress-nginx
     behavior: create
     files:
       - nginx.conf
-    options:
-      disableNameSuffixHash: true
-resources:
-  - k8s
+  - name: nginx-template
+    namespace: ingress-nginx
+    behavior: create
+    files:
+      - nginx.tmpl

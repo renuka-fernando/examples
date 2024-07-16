@@ -1,10 +1,26 @@
-### Create Nginx.conf ConfigMap and Deployments
+### Install Nginx Ingress Controller and Other Resources
 
 ```sh
-k apply -k .
+kubectl kustomize . --enable-helm | kubectl apply -f -
 ```
 
-### Install Nginx Ingress Controller
+### Controller Logs
+
+```sh
+k get po -n ingress-nginx -l app.kubernetes.io/component=controller
+```
+
+### Test
+
+```sh
+curl 'http://localhost/hello' -H 'host: example.com'
+```
+
+```sh
+curl 'http://localhost/lua' -H 'host: example.com'
+```
+
+#### Install Nginx Ingress Controller using Helm
 
 ```sh
 helm upgrade --install ingress-nginx ingress-nginx \
@@ -22,15 +38,3 @@ https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-conf
 
 #### Helm Chart Configs
 https://github.com/kubernetes/ingress-nginx/blob/main/charts/ingress-nginx/values.yaml
-
-### Apply Configs
-
-```sh
-k apply -f k8s/
-```
-### Test
-
-```sh
-curl http://localhost/foo -H 'Host: foo.com' -v
-```
-

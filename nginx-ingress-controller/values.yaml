@@ -5,7 +5,12 @@ controller:
   extraVolumeMounts:
     - name: nginx-conf
       mountPath: /etc/nginx/sites-enabled
+    - name: nginx-template
+      mountPath: /etc/nginx/template
   extraVolumes:
     - name: nginx-conf
       configMap:
         name: nginx-ic
+    - name: nginx-template
+      configMap:
+        name: nginx-template

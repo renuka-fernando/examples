@@ -426,6 +426,11 @@ http {
         {{ end }}
     }
 
+    map $http_x_correlation_id $correlation_id {
+        default   $request_id;
+        ""        $request_id;
+    }
+
     {{ if and $cfg.UseForwardedHeaders $cfg.ComputeFullForwardedFor }}
     # We can't use $proxy_add_x_forwarded_for because the realip module
     # replaces the remote_addr too soon
@@ -755,6 +760,16 @@ http {
             }
         }
     }
+
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                    '$status $body_bytes_sent "$http_referer" '
+                    '"$http_user_agent" $request_length $request_time '
+                    '$upstream_addr $upstream_response_length '
+                    '$upstream_response_time $upstream_status $req_id $correlation_id '
+                    '$host';
+
+    include /etc/nginx/conf.d/*.conf;
+    include /etc/nginx/sites-enabled/*;
 }
 
 stream {
