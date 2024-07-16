@@ -7,7 +7,7 @@ kubectl kustomize . --enable-helm | kubectl apply -f -
 ### Controller Logs
 
 ```sh
-k get po -n ingress-nginx -l app.kubernetes.io/component=controller
+kubectl logs -n ingress-nginx -l app.kubernetes.io/component=controller -f
 ```
 
 ### Test
@@ -18,6 +18,12 @@ curl 'http://localhost/hello' -H 'host: example.com'
 
 ```sh
 curl 'http://localhost/lua' -H 'host: example.com'
+```
+
+### Uninstall
+
+```sh
+kubectl kustomize . --enable-helm | kubectl delete -f -
 ```
 
 #### Install Nginx Ingress Controller using Helm
