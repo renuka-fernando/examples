@@ -10,7 +10,23 @@ kubectl kustomize . --enable-helm | kubectl apply -f -
 kubectl logs -n ingress-nginx -l app.kubernetes.io/component=controller -f
 ```
 
+### View Nginx Configs
+
+```sh
+kubectl ingress-nginx --deployment nginx-ic-ingress-nginx-controller -n ingress-nginx conf
+```
+
+### View Backends
+
+```sh
+k ingress-nginx --deployment nginx-ic-ingress-nginx-controller -n ingress-nginx backends
+```
+
 ### Test
+
+```sh
+curl 'http://localhost/foo/bar' -H 'Host: foo.com' -d 'hello world!'
+```
 
 ```sh
 curl 'http://localhost/hello' -H 'host: example.com'
