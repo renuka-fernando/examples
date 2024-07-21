@@ -31,7 +31,9 @@ static_resources:
                           - name: envoy.formatter.req_without_query
                             typed_config:
                               "@type": type.googleapis.com/envoy.extensions.formatter.req_without_query.v3.ReqWithoutQuery
-
+                upgrade_configs:
+                  - upgrade_type: websocket
+                    
                 route_config:
                   name: local_route
                   virtual_hosts:
@@ -122,6 +124,15 @@ static_resources:
                               retry_on: 5xx
                               num_retries: 3
                               per_try_timeout: 0.5s
+                        - name: websocket
+                          match:
+                            prefix: "/ws"
+                          route:
+                            cluster: host-service
+                            idle_timeout: 300s
+                            upgrade_configs:
+                              - upgrade_type: websocket
+                                enabled: true
                         - name: upstream-any
                           match:
                             prefix: "/"
@@ -199,9 +210,14 @@ static_resources:
                     socket_address:
                       address: request_info
                       port_value: 8080
+          - lb_endpoints:
+              - endpoint:
+                  address:
+                    socket_address:
+                      address: request_info_2
+                      port_value: 8081
       circuit_breakers:
         thresholds:
-          - max_connections: 1  # Limit to 1 connection
-            max_pending_requests: 1  # Limit to 1 pending request
-            max_requests: 1  # Limit to 1 request
-
+          - max_connections: 1
+            max_pending_requests: 1
+            max_requests: 3

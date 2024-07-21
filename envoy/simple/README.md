@@ -20,6 +20,9 @@ curl -v 'http://localhost:8000/baz'
 
 ## Scenarios
 
+Access log format:
+[%START_TIME%] "%REQ(:METHOD)% %REQ(X-ENVOY-ORIGINAL-PATH?:PATH)% %PROTOCOL%" %RESPONSE_CODE% %RESPONSE_FLAGS% %RESPONSE_CODE_DETAILS% %BYTES_RECEIVED% %BYTES_SENT% %DURATION% %RESP(X-ENVOY-UPSTREAM-SERVICE-TIME)% "%REQ(X-FORWARDED-FOR)%" "%REQ(USER-AGENT)%" "%REQ(X-REQUEST-ID)%" "%REQ(:AUTHORITY)%" "%UPSTREAM_HOST%"
+
 ### UT: HTTP 502: Gateway Timeout
 
 ```sh
@@ -70,7 +73,22 @@ envoy-1         | 2024-07-20T07:23:59.593171059Z [2024-07-20T07:23:58.586Z] "GET
 ### UO: HTTP 503 Service Unavailable: Upstream Overflow
 
 ```sh
-curl -v 'http://localhost:8000/upstream-service-overflow?delayMs=5000' & curl -v 'http://localhost:8000/upstream-service-overflow?delayMs=5000'
+curl -v 'http://localhost:8000/upstream-service-overflow?delayMs=5000' & \
+    curl -v 'http://localhost:8000/upstream-service-overflow?delayMs=5000' & \
+    curl -v 'http://localhost:8000/upstream-service-overflow?delayMs=5000'
+```
+
+```sh
+jmeter -t test.jmx \
+-Jusers=500 \
+-JrampUpPeriod=10 \
+-Jduration=1020 \
+-Jproto=http \
+-Jport=8000 \
+-Jip='localhost' \
+-Jpath='/upstream-service-overflow?delayMs=5000' \
+-Jpayload="/Users/renuka/Documents/payloads/50B.json" \
+-n -l results.jtl
 ```
 
 ```log
@@ -101,4 +119,43 @@ request_info-1  | 2024-07-20T07:45:34.837428760Z 2024/07/20 07:45:34 [INFO] "GET
 request_info-1  | 2024-07-20T07:45:34.879198385Z 2024/07/20 07:45:34 [INFO] "GET" "/upstream-retry-exceeds?statusCode=500", Host: "localhost:8000", Content Length: 0, "curl/8.4.0", "192.168.48.3:50244"
 request_info-1  | 2024-07-20T07:45:34.887870218Z 2024/07/20 07:45:34 [INFO] "GET" "/upstream-retry-exceeds?statusCode=500", Host: "localhost:8000", Content Length: 0, "curl/8.4.0", "192.168.48.3:50260"
 envoy-1         | 2024-07-20T07:45:34.917997010Z [2024-07-20T07:45:34.828Z] "GET /upstream-retry-exceeds?statusCode=500 HTTP/1.1" 500 URX via_upstream 0 680 59 59 "-" "curl/8.4.0" "0df38f52-08eb-4b67-a097-ece7427c7238" "localhost:8000" "192.168.48.2:8080"
+```
+
+## WebSocket
+
+### Start server
+
+```sh
+node websocket-server-nodejs/server.js
+```
+
+### Tryout
+
+```sh
+websocat ws://localhost:8000/ws
+```
+
+### Create 100 connections
+
+```sh
+for i in {1..100}; do; 
+    tail -f foo.txt | websocat ws://localhost:8000/ws & \
+        sleep 0.1
+done
+```
+
+```sh
+for i in {1..100}; do; 
+    echo 12345678 >> foo.txt
+    sleep 1
+done
+```
+
+
+
+
+```log
+envoy-1           | 2024-07-21T08:33:12.906672966Z [2024-07-21T08:32:59.547Z] "GET /ws HTTP/1.1" 101 DC downstream_remote_disconnect 61 105 13342 - "-" "-" "e5248829-b318-443a-a763-e2460530f070" "localhost:8000" "192.168.5.2:8080"
+
+envoy-1           | 2024-07-21T09:18:26.815973385Z [2024-07-21T09:11:33.481Z] "GET /ws HTTP/1.1" 101 SI stream_idle_timeout 100 154 413322 - "-" "-" "8a458ce2-bb8d-4e80-a305-f323bbab338f" "localhost:8000" "192.168.5.2:8080"
 ```

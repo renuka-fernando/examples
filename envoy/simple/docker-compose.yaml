@@ -7,7 +7,16 @@ services:
     command: /usr/local/bin/envoy -c /etc/envoy/envoy.yaml --service-cluster front-proxy --file-flush-interval-msec 50
     ports:
       - "8000:8000"
+      - "9000:9000"
 
   request_info:
     image: renukafernando/request-info:latest
     command: ["-addr", ":8080"]
+    environment:
+      - NAME=Service-1
+
+  request_info_2:
+    image: renukafernando/request-info:latest
+    command: ["-addr", ":8081"]
+    environment:
+      - NAME=Service-2
