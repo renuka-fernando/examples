@@ -52,6 +52,14 @@ func (s *server) Check(
 								},
 							},
 						},
+						ResponseHeadersToAdd: []*envoy_api_v3_core.HeaderValueOption{
+							{
+								Header: &envoy_api_v3_core.HeaderValue{
+									Key:   "response-header-1",
+									Value: "response-value-1",
+								},
+							},
+						},
 					},
 				},
 				Status: &status.Status{

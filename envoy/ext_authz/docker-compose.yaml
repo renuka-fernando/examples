@@ -16,5 +16,5 @@ services:
   #   command: /app/server -users /etc/users.json
 
   upstream-service:
-    image: cakebakery/request-info:v1
+    image: renukafernando/request-info:latest
     command: -pretty -logH -logB
