@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   envoy:
-    image: envoyproxy/envoy:v1.26.4
+    image: envoyproxy/envoy:v1.24.7
     volumes:
       - ./envoy.yaml:/etc/envoy/envoy.yaml
       - ./envoy-start.sh:/usr/local/bin/envoy-start.sh
@@ -15,6 +15,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: go-app
+    image: go-app:latest
     ports:
       - "8080:8080"

@@ -1,4 +1,14 @@
-### Spectral
+## Spectral
+
+### Installation
+
+
+
+```sh
+npm install -g @stoplight/spectral-cli
+```
+
+### Tryout
 
 ```sh
 spectral lint basic-swager.yaml

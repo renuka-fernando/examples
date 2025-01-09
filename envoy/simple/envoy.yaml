@@ -26,7 +26,7 @@ static_resources:
                       log_format:
                         text_format_source:
                           inline_string: >
-                            [%START_TIME%] "%REQ(:METHOD)% %REQ(X-ENVOY-ORIGINAL-PATH?:PATH)% %PROTOCOL%" %RESPONSE_CODE% %RESPONSE_FLAGS% %RESPONSE_CODE_DETAILS% %BYTES_RECEIVED% %BYTES_SENT% %DURATION% %RESP(X-ENVOY-UPSTREAM-SERVICE-TIME)% "%REQ(X-FORWARDED-FOR)%" "%REQ(USER-AGENT)%" "%REQ(X-REQUEST-ID)%" "%REQ(:AUTHORITY)%" "%UPSTREAM_HOST%"
+                            [%START_TIME%] "%REQ(:METHOD)% %REQ(X-ENVOY-ORIGINAL-PATH?:PATH)% %REQ(:PATH)% %PROTOCOL%" %RESPONSE_CODE% %RESPONSE_FLAGS% %RESPONSE_CODE_DETAILS% %BYTES_RECEIVED% %BYTES_SENT% %RESP(X-ENVOY-UPSTREAM-SERVICE-TIME)% "%REQ(X-FORWARDED-FOR)%" "%REQ(USER-AGENT)%" "%REQ(X-REQUEST-ID)%" "%REQ(:AUTHORITY)%" "%UPSTREAM_HOST% %DURATION% %REQUEST_DURATION% %REQUEST_TX_DURATION% %RESPONSE_DURATION% %RESPONSE_TX_DURATION%"
                         formatters:
                           - name: envoy.formatter.req_without_query
                             typed_config:
@@ -133,6 +133,16 @@ static_resources:
                             upgrade_configs:
                               - upgrade_type: websocket
                                 enabled: true
+                        - name: host
+                          match:
+                            prefix: "/host"
+                          route:
+                            regex_rewrite:
+                              pattern:
+                                regex: '^/host/?'
+                              substitution: /
+                            cluster: ngrok
+                            timeout: 60s
                         - name: upstream-any
                           match:
                             prefix: "/"

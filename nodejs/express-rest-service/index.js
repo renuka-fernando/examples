@@ -1,27 +1,37 @@
 const express = require('express');
 const app = express();
+const port = 3000;
+
+// Middleware to parse JSON bodies
 app.use(express.json());
-const a = require('./src/app');
 
-// GET request to the root URL
-app.get('/', (req, res) => {
-    res.send('Hello, World!');
+// Route for /foo
+app.get('/foo', (req, res) => {
+  res.send('GET request to /foo');
 });
 
-// Example of handling a POST request
-app.post('/api/data', (req, res) => {
-    // Process incoming data
-    res.send('Data received');
+app.post('/foo', (req, res) => {
+  const data = req.body;
+  res.send(`POST request to /foo with data: ${JSON.stringify(data)}`);
 });
 
-app.post('/api/register/put', (req, res) => {
-    app.put('/api/data', (req, res) => {
-        res.send('Hello, World! - PUT');
-    });
-    res.send({"message": "registered"})
+// Route for /foo/:id
+app.get('/foo/:id', (req, res) => {
+  const id = req.params.id;
+  res.send(`GET request to /foo/${id}`);
 });
 
-const PORT = process.env.PORT || 3000; // Use the port specified in environment variable or 3000 by default
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+app.put('/foo/:id', (req, res) => {
+  const id = req.params.id;
+  const data = req.body;
+  res.send(`PUT request to /foo/${id} with data: ${JSON.stringify(data)}`);
+});
+
+app.delete('/foo/:id', (req, res) => {
+  const id = req.params.id;
+  res.send(`DELETE request to /foo/${id}`);
+});
+
+app.listen(port, () => {
+  console.log(`App listening at http://localhost:${port}`);
 });

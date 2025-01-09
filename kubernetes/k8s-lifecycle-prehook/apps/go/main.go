@@ -77,7 +77,7 @@ func main() {
 				// Perform cleanup if necessary
 				os.Exit(0)
 			case syscall.SIGTERM:
-				fmt.Printf("Received SIGTERM, exiting in %d sec...\n", *delayTerm)
+				fmt.Printf("Received SIGTERM, exiting in %d milliseconds...\n", *delayTerm)
 				time.Sleep(time.Duration(*delayTerm) * time.Millisecond)
 				// Perform cleanup if necessary
 				os.Exit(0)
