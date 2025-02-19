@@ -4,7 +4,7 @@ services:
     image: envoyproxy/envoy:v1.24.7
     volumes:
       - ./envoy.yaml:/etc/envoy/envoy.yaml
-    command: /usr/local/bin/envoy -c /etc/envoy/envoy.yaml --service-cluster front-proxy --file-flush-interval-msec 50
+    command: /usr/local/bin/envoy -c /etc/envoy/envoy.yaml --service-cluster front-proxy --file-flush-interval-msec 50 --component-log-level dns:debug
     ports:
       - "8000:8000"
       - "9000:9000"
