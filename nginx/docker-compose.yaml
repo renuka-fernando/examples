@@ -14,6 +14,7 @@ services:
       - ./certs:/certs
     ports:
       - "18080:8080"
+      - "18443:8443"
   envoy:
     image: envoyproxy/envoy:v1.24.7
     volumes:
@@ -21,6 +22,9 @@ services:
     command: /usr/local/bin/envoy -c /etc/envoy/envoy.yaml --service-cluster front-proxy --file-flush-interval-msec 50
     ports:
       - "9000:9000"
+      - "8000:8000"
   upstream-service:
     image: renukafernando/request-info:latest
     command: -pretty -logH -logB
+    ports:
+      - "8080:8080"
