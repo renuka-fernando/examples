@@ -26,6 +26,13 @@ curl -v 'http://localhost:8000/baz'
 
 4. HTTPS with SNI
 
+Set the host mapping in `/etc/hosts`:
+```
+echo "127.0.0.1 my-foo.com" | sudo tee -a /etc/hosts
+```
+
+Then invoke the service with HTTPS:
+
 ```sh
 curl -v 'https://my-foo.com:8443/foo/baz' --cacert certs/my-foo.com.crt
 ```
