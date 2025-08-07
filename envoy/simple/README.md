@@ -35,6 +35,7 @@ Then invoke the service with HTTPS:
 
 ```sh
 curl -v 'https://my-foo.com:8443/foo/baz' --cacert certs/my-foo.com.crt
+curl -v 'https://my-foo.com:8443/foo/baz' --cacert certs/my-foo.com.crt --resolve my-foo.com:8443:127.0.0.1
 ```
 
 ## Scenarios
