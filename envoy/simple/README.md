@@ -2,13 +2,19 @@
 
 ### Steps
 
-1. Run the Docker Compose setup
+1. Generate certs
+
+```sh
+./generate_certs.sh
+```
+
+2. Run the Docker Compose setup
 
 ```sh
 docker compose down; docker compose up -d; docker compose logs -f -t
 ```
 
-2. Invoke the service
+3. Invoke the service
 
 ```sh
 curl -v 'http://localhost:8000/foo/baz'
@@ -16,6 +22,12 @@ curl -v 'http://localhost:8000/foo/baz'
 
 ```sh
 curl -v 'http://localhost:8000/baz'
+```
+
+4. HTTPS with SNI
+
+```sh
+curl -v 'https://my-foo.com:8443/foo/baz' --cacert certs/my-foo.com.crt
 ```
 
 ## Scenarios

@@ -1,12 +1,15 @@
 version: "3.8"
 services:
   envoy:
-    image: envoyproxy/envoy:v1.24.7
+    image: envoyproxy/envoy:v1.33.0
     volumes:
-      - ./envoy.yaml:/etc/envoy/envoy.yaml
-    command: /usr/local/bin/envoy -c /etc/envoy/envoy.yaml --service-cluster front-proxy --file-flush-interval-msec 50 --component-log-level dns:debug
+      - ./envoy.yaml:/etc/envoy/envoy.yaml # for envoyproxy/envoy:v1.24.7
+      - ./certs:/certs
+    command: /usr/local/bin/envoy -c /etc/envoy/envoy.yaml --service-cluster front-proxy --file-flush-interval-msec 50 --component-log-level conn_handler:trace
+    # command: /usr/local/bin/envoy -c /etc/envoy/envoy.yaml --service-cluster front-proxy --file-flush-interval-msec 50 --component-log-level conn_handler:trace,upstream:debug,connection:trace
     ports:
       - "8000:8000"
+      - "8443:8443"
       - "9000:9000"
 
   request_info:
